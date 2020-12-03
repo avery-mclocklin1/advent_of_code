@@ -70,8 +70,6 @@ int main(void)
 	for( int i = 0; fgets(buff, MAX_BUFF_LEN, pass_file) != NULL; i++ ) {
 		memset( pass_cred.pass, '\0', sizeof(char)*PASSWORD_LEN );
 		parse_line(buff, &pass_cred);
-		if ( i < 10 )
-			printf("%s\nPOS1: %i, POS2: %i, CHAR: %c, PASS: %s\n\n", buff, pass_cred.pos1, pass_cred.pos2, pass_cred.c, pass_cred.pass);
 		count = count + correct_pass(&pass_cred);
 	}
 
