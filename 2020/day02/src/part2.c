@@ -29,9 +29,7 @@ int correct_pass(password_credential_t *pass_cred)
 	return correct;
 }
 
-/* Reads each line of the file, parses each line into password struct,
- * returns total correct password count
- */
+/* Reads each line of the file, parses each line into password struct */
 void parse_line(char *buff, password_credential_t *pass_cred)
 {
 	char pos_buff[3];
