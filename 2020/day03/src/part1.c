@@ -6,7 +6,7 @@
 #define PROG_INPUT "input"
 #define MAX_BUFF_LEN 255
 
-/* Returns number of lines in report */
+/* Returns number of lines in file */
 int get_file_length(FILE *fp)
 {
 	int count = 0;
@@ -22,7 +22,7 @@ int get_file_length(FILE *fp)
 	return count;
 }
 
-/* Reads by character in file, if within character criteria will assign correct indecies within matrix */
+/* Reads by character in file, if within character criteria will assign correct indecies in matrix */
 void populate_2d_array(FILE *fp, char **array, size_t len, size_t width)
 {
 	char c;
@@ -61,12 +61,7 @@ int main(void)
 		array[i] = sub_array;
 	}
 
-	populate_array(tree_file, array, f_len, f_width);
-
-	//for (int i = 0; i < f_len; i++) {
-	//	memset(array[i], 'X', f_width);
-	//	printf("%s\n", array[i]);
-	//}
+	populate_2d_array(tree_file, array, f_len, f_width);
 
 	for (int i = 0; i < f_len; i++) {
 		for (int j = 0; j < f_width; j++) {
@@ -74,6 +69,12 @@ int main(void)
 		}
 		printf("\n");
 	}
+
+	/* Be free */
+	for (int i = 0; i < f_len; i++) {
+		free(array[i]);
+	}
+	free(array);
 
 	printf("f_len: %li\tf_width: %li\n", f_len, f_width);
 
