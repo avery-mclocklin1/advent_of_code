@@ -42,6 +42,37 @@ void populate_2d_array(FILE *fp, char **array, size_t len, size_t width)
 	rewind(fp);
 }
 
+/* Traverses a 2d matrix until using a run(x-axis) and rise(y-axis) scheme.
+ * If the indexed value is a char '#' then a counter is incremented by one.
+ * Returns count
+ */
+int count_collisions(char **array, size_t len, size_t width, int rise, int run)
+{
+	int count = 0;
+	int diff;
+	int i = 0;
+	int j = 0;
+
+	while (i < len) {
+		/* Determine if run exceeds sub_array bounds */
+		diff = width - j;
+		if ( diff <= run ) {
+			j = run - diff;
+		} else {
+			j = j + run;
+		}
+
+		i = i + rise;
+		if (i == len)	// in-case rise exceeds array bounds
+			break;
+
+		if ( array[i][j] == '#' )
+			count++;
+	}
+
+	return count;
+}
+
 int main(void)
 {
 	FILE *tree_file;
@@ -55,6 +86,7 @@ int main(void)
 	f_width = strlen(fgets(buff, MAX_BUFF_LEN, tree_file)) - 1;
 	rewind(tree_file);
 	
+	/* Build 2d matrix */
 	array = (char**)calloc(f_len, sizeof(char**));
 	for (int i = 0; i < f_len; i++) {
 		sub_array = (char*)calloc(f_width, sizeof(char*));
@@ -63,6 +95,7 @@ int main(void)
 
 	populate_2d_array(tree_file, array, f_len, f_width);
 
+	/* Print populated matrix */
 	for (int i = 0; i < f_len; i++) {
 		for (int j = 0; j < f_width; j++) {
 			printf("%c", array[i][j]);
@@ -70,13 +103,14 @@ int main(void)
 		printf("\n");
 	}
 
+	printf("f_len: %li\tf_width: %li\n", f_len, f_width);
+	printf("Tree collisions: %i\n", count_collisions(array, f_len, f_width, 1, 3));
+
 	/* Be free */
 	for (int i = 0; i < f_len; i++) {
 		free(array[i]);
 	}
 	free(array);
-
-	printf("f_len: %li\tf_width: %li\n", f_len, f_width);
 
 	return 0;
 }
