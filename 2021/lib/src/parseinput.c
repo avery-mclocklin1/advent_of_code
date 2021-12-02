@@ -4,6 +4,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "../../lib/inc/parseinput.h"
 
 /* Returns number of lines in report */
 int get_report_length(FILE *fp)
@@ -22,7 +25,7 @@ int get_report_length(FILE *fp)
 }
 
 /* Reads each line of the report, cast types to integer in array */
-void read_report(FILE *fp, int *rep)
+void read_report_int(FILE *fp, int *rep)
 {
 	char buff[10];
 
@@ -32,3 +35,26 @@ void read_report(FILE *fp, int *rep)
 	}
 }
 
+void populate_kv_int(char *buff, keyValueInt_t *kv) {
+	const char delim = ' ';
+	char *token;
+
+	token = strtok(buff, &delim);
+	strcpy(kv->key, token);
+
+	token = strtok(NULL, &delim);
+	kv->value = atoi(token);
+}
+
+void read_report_kv_int(FILE *fp, keyValueInt_t **kv_array) {
+	char buff[30];
+	keyValueInt_t* kv;
+
+	rewind(fp);
+	for( int i = 0; fgets(buff, 30, fp) != NULL; i++ ) {
+		kv = (keyValueInt_t*)calloc(1, sizeof(keyValueInt_t));
+		populate_kv_int(buff, kv);
+		kv_array[i] = kv;
+	}
+	
+}
