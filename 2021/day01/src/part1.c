@@ -15,7 +15,7 @@ int main(void) {
 	report = fopen(INPUT, "r");
 	f_len = get_report_length(report);
 	depths = (int*)calloc(f_len, sizeof(int));
-	read_report(report, depths);
+	read_report_int(report, depths);
 
 	/* Calculate diff, determine increases */
 	for (int i = 1; i <= f_len; i++) {

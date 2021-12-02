@@ -18,9 +18,8 @@ int main(void) {
 	/* Parse input */
 	report = fopen(INPUT, "r");
 	f_len = get_report_length(report);
-	printf("f_len: %i\n", f_len);
 	depths = (int*)calloc(f_len, sizeof(int));
-	read_report(report, depths);
+	read_report_int(report, depths);
 
 	/* Calculate diff, determine increases */
 	for (int i = 1; i <= f_len-2; i++) {
